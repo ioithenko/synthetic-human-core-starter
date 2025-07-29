@@ -8,18 +8,15 @@ import java.time.Instant;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 
+@Getter
 public class SyntheticCommand {
     private static final int MAX_DESCRIPTION_LENGTH = 1000;
     private static final int MAX_AUTHOR_LENGTH = 100;
     private static final DateTimeFormatter ISO_FORMATTER = DateTimeFormatter.ISO_INSTANT;
 
-    @Getter
     private final CommandPriority priority;
-    @Getter
     private final String description;
-    @Getter
     private final String author;
-    @Getter
     private final String timestamp;
 
     public SyntheticCommand(String description, CommandPriority priority,

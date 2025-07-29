@@ -1,6 +1,9 @@
 package com.weyland.synthetic_human_core_starter.exception;
 
 
+import lombok.Getter;
+
+@Getter
 public class CoreException extends RuntimeException {
     private final ErrorResponse errorResponse;
 
@@ -9,11 +12,4 @@ public class CoreException extends RuntimeException {
         this.errorResponse = errorResponse;
     }
 
-    public CoreException(String errorCode, String message) {
-        this(new ErrorResponse(errorCode, message));
-    }
-
-    public ErrorResponse getErrorResponse() {
-        return errorResponse;
-    }
 }

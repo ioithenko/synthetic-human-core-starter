@@ -1,12 +1,8 @@
 package com.weyland.synthetic_human_core_starter.audit;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.Getter;
 
 import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
 
 public class AuditEvent {
     @Getter
@@ -32,31 +28,6 @@ public class AuditEvent {
         this.exception = exception;
         this.timestamp = System.currentTimeMillis();
         this.androidId = androidId;
-    }
-
-    public Object[] getArgs() {
-        return args != null ? Arrays.copyOf(args, args.length) : null;
-    }
-
-    public String toJsonString() {
-        ObjectMapper mapper = new ObjectMapper();
-        try {
-            Map<String, Object> auditData = new HashMap<>();
-            auditData.put("timestamp", timestamp);
-            auditData.put("androidId", androidId);
-            auditData.put("method", methodName);
-            auditData.put("args", args != null ? Arrays.toString(args) : "null");
-            auditData.put("result", result != null ? result.toString() : "void");
-            auditData.put("status", exception != null ? "FAILED" : "SUCCESS");
-            auditData.put("error", exception != null ? exception.getMessage() : null);
-
-            return mapper.writeValueAsString(auditData);
-        } catch (JsonProcessingException e) {
-            return String.format(
-                    "{\"error\":\"JSON serialization failed\", \"method\":\"%s\"}",
-                    methodName
-            );
-        }
     }
 
     @Override

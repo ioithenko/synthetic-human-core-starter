@@ -15,10 +15,6 @@ public class CompositeAuditPublisher implements AuditPublisher {
                 new KafkaAuditPublisher(kafkaTemplate, kafkaTopic) : null;
     }
 
-    public void setMode(AuditMode mode) {
-        this.currentMode = mode;
-    }
-
     @Override
     public void publish(String message) {
         switch (currentMode) {
