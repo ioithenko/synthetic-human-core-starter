@@ -17,13 +17,13 @@ Spring Boot Starter для управления командным центро�
 Размер очереди	 `/actuator/metrics/bishop.command.queue.size`
 Команды по авторам	`/actuator/metrics/bishop.commands.processed?tag=author:NAME`	
 
-3. Система аудита действий
+### 3. Система аудита действий
 Ключевые компоненты:
 @WeylandWatchingYou - аннотация для аудита методов
 AuditAspect - аспект обработки аудита
 CompositeAuditPublisher - роутер сообщений
 
-Режимы работы (настраиваются в application.properties):
+## Режимы работы (настраиваются в application.properties):
 ```
 weyland.bishop.core.audit.mode=CONSOLE # или KAFKA/BOTH
 weyland.bishop.core.audit.kafka.topic=audit-logs
