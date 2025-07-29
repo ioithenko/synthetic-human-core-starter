@@ -8,25 +8,25 @@ import org.aspectj.lang.annotation.Aspect;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.EnumMap;
-import java.util.Map;
 
 @Aspect
 @Component
 public class AuditAspect {
-    private final Map<AuditMode, AuditPublisher> publishers;
+    private final AuditPublisher auditPublisher;
 
     @Autowired
-    public AuditAspect(CompositeAuditPublisher compositePublisher) {
-        this.publishers = new EnumMap<>(AuditMode.class);
-        this.publishers.put(AuditMode.CONSOLE, compositePublisher);
-        this.publishers.put(AuditMode.KAFKA, compositePublisher);
-        this.publishers.put(AuditMode.BOTH, compositePublisher);
+    public AuditAspect(AuditPublisher auditPublisher) {
+        this.auditPublisher = auditPublisher;
     }
 
     @Around("@annotation(weylandWatchingYou)")
     public Object auditMethod(ProceedingJoinPoint joinPoint,
                               WeylandWatchingYou weylandWatchingYou) throws Throwable {
+
+        if (auditPublisher instanceof CompositeAuditPublisher) {
+            ((CompositeAuditPublisher) auditPublisher).setMode(weylandWatchingYou.mode());
+        }
+
         String methodName = joinPoint.getSignature().getName();
         Object[] args = joinPoint.getArgs();
         Object result = null;
@@ -40,8 +40,7 @@ public class AuditAspect {
             throw t;
         } finally {
             String message = buildAuditMessage(methodName, args, result, exception);
-            AuditPublisher publisher = publishers.get(weylandWatchingYou.mode());
-            publisher.publish(message);
+            auditPublisher.publish(message);
         }
     }
 
