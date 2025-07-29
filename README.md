@@ -14,8 +14,10 @@ Spring Boot Starter для управления командным центро�
 Ключевой компонент: CommandMetricsService
 
 Доступные метрики:
+
 Размер очереди	 `/actuator/metrics/bishop.command.queue.size`
-Команды по авторам	`/actuator/metrics/bishop.commands.processed?tag=author:NAME`	
+
+Команды по авторам	`/actuator/metrics/bishop.commands.by.author`	
 
 ### 3. Система аудита действий
 Ключевые компоненты:
